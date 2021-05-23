@@ -3,7 +3,8 @@ readline = require('readline'),
 os = require('os'),
 request = require('sync-request'),
 chalk = require('chalk'),
-cryptr = require('cryptr')
+cryptr = require('cryptr'),
+server = 'speakjs.herokuapp.com'
 
 var r = JSON.parse(request("GET", 'https://'+  server + "/message").body)
 console.log(`
