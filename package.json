@@ -2,7 +2,7 @@
   "name": "speak-js",
   "version": "1.0.0",
   "description": "speak chiffré en js...",
-  "main": "server.js",
+  "main": "client.js",
   "dependencies": {
     "os": "^0.1.1",
     "readline": "^1.3.0",
