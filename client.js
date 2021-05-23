@@ -70,8 +70,8 @@ rl.question('server: ', (serv) => {
               startTimestamp: new Date(),
               largeImageKey: 'logo',
               largeImageText: 'sltcv.com',
-              partySize: r.users + 1,
-              partyMax: r.number + 1,
+              partySize: r.users <= 0 ? 1 : r.users + 1,
+              partyMax: r.number <= 0 ? 1 : r.number + 1,
               buttons: [{
                   label: 'discord',
                   url: 'https://discord.gg/punchnox'
