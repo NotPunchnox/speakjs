@@ -38,7 +38,7 @@ rl.question('server: ', (serv) => {
        ( (                 \x1b[36m Speakjs \x1b[0m
         ) )            author: \x1b[36mpunchnox\x1b[0m
       ........
-      |      |]        server: [${request("GET", 'https://' + server + '/message').statusCode === 200 ? '\x1b[32mONLINE\x1b[0m': '\x1b[34mOFFLINE\x1b[0m]'}
+      |      |]        server: [${request("GET", 'https://' + server + '/message').statusCode === 203 ? '\x1b[32mONLINE\x1b[0m': '\x1b[34mOFFLINE\x1b[0m]'}
       \\      /         messages: [\x1b[32m${r.number}\x1b[0m]
        \`----'          user: [\x1b[32m${os.userInfo().username}\x1b[0m]
 
