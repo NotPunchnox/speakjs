@@ -4,15 +4,17 @@ os = require('os'),
 request = require('sync-request'),
 chalk = require('chalk'),
 cryptr = require('cryptr'),
-server = 'speakjs.herokuapp.com'
+serveur = 'speakjs.herokuapp.com',
+rpc = require("discord-rpc"),
+client = new rpc.Client({transport: "ipc"})
 
-var r = JSON.parse(request("GET", 'https://'+  server + "/message").body),
+var r = JSON.parse(request("GET", 'https://'+  serveur + "/message").body),
 nickname = (request("GET", 'https://pastebin.com/raw/WucBfSyW').body).toString().replace(/\r|\"/gi, '').split("\n")
 console.log(`
    ( (                 \x1b[36m Speakjs \x1b[0m
     ) )            author: \x1b[36mpunchnox\x1b[0m
   ........
-  |      |]        server: [${request("GET", 'https://' + server + '/message').statusCode === 203 ? '\x1b[32mONLINE\x1b[0m]': '\x1b[31mOFFLINE\x1b[0m]'}
+  |      |]        server: [${request("GET", 'https://' + serveur + '/message').statusCode === 203 ? '\x1b[32mONLINE\x1b[0m]': '\x1b[31mOFFLINE\x1b[0m]'}
   \\      /         messages: [\x1b[32m${r.number}\x1b[0m]
    \`----'          user: [\x1b[32m${os.userInfo().username}\x1b[0m]
 
@@ -29,16 +31,16 @@ const rl = readline.createInterface({
 rl.question('server: ', (serv) => {
   if (serv !== String(1) && serv !== String(2)) return new Error('Invalid Argument!')
   if (serv === String(2)) return rl.question('gateway url: ', (serv2) => start(serv2))
-  if (serv === String(1)) return start(server)
+  if (serv === String(1)) return start(serveur)
   function start(server) {
-    console.clear()
+    console.clear()//speak-eu.herokuapp.com
     console.log(`
-      ( (                 \x1b[36m Speakjs \x1b[0m
-      ) )            author: \x1b[36mpunchnox\x1b[0m
+       ( (                 \x1b[36m Speakjs \x1b[0m
+        ) )            author: \x1b[36mpunchnox\x1b[0m
       ........
       |      |]        server: [${request("GET", 'https://' + server + '/message').statusCode === 200 ? '\x1b[32mONLINE\x1b[0m': '\x1b[34mOFFLINE\x1b[0m]'}
       \\      /         messages: [\x1b[32m${r.number}\x1b[0m]
-      \`----'          user: [\x1b[32m${os.userInfo().username}\x1b[0m]
+       \`----'          user: [\x1b[32m${os.userInfo().username}\x1b[0m]
 
 
       [\x1b[36m1\x1b[0m]: hostname: ${os.userInfo().username}
@@ -59,7 +61,33 @@ rl.question('server: ', (serv) => {
             event: 'new'
           }))
         })
-
+        r = JSON.parse(request("GET", 'https://'+  server + "/message").body)
+        if(os.platform() === "win32") {
+          client.on("ready", () => {
+            client.setActivity({
+              details: username,
+              state: 'users',
+              startTimestamp: new Date(),
+              largeImageKey: 'logo',
+              largeImageText: 'sltcv.com',
+              partySize: r.users + 1,
+              partyMax: r.number,
+              buttons: [{
+                  label: 'discord',
+                  url: 'https://discord.gg/punchnox'
+                },
+                {
+                  label: 'speak.js server',
+                  url: 'https://speak-eu.herokuapp.com'
+                }
+              ]
+            })
+          })
+          
+          client.login({
+            clientId: '846039759981641769'
+          })
+        }
         r.msg.forEach(a => {
           console.log(`\n(${chalk.hex(a.color)(a.username)}) : \x1b[32m${a.CreatedAt}\x1b[0m:\n>${chalk.hex(a.color)(new cryptr(String(a.expire)).decrypt(a.content))}\n`)
         })
