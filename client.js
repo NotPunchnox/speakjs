@@ -61,7 +61,6 @@ rl.question('server: ', (serv) => {
             event: 'new'
           }))
         })
-        console.log(request("GET", 'https://'+  server + "/message").body.toString())
         r = JSON.parse(request("GET", 'https://'+  server + "/message").body)
         if(os.platform() === "win32") {
           client.on("ready", () => {
