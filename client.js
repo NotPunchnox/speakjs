@@ -30,7 +30,7 @@ const rl = readline.createInterface({
 })
 rl.question('server: ', (serv) => {
   if (serv !== String(1) && serv !== String(2)) return new Error('Invalid Argument!')
-  if (serv === String(2)) return rl.question('gateway url: ', (serv2) => start(serv2))
+  if (serv === String(2)) return rl.question('gateway url: ', (serv2) => start(serv2.replace(/ /, '')))
   if (serv === String(1)) return start(serveur)
   function start(server) {
     console.clear()//speak-eu.herokuapp.com
@@ -61,6 +61,7 @@ rl.question('server: ', (serv) => {
             event: 'new'
           }))
         })
+        console.log(request("GET", 'https://'+  server + "/message").body.toString())
         r = JSON.parse(request("GET", 'https://'+  server + "/message").body)
         if(os.platform() === "win32") {
           client.on("ready", () => {
@@ -88,7 +89,7 @@ rl.question('server: ', (serv) => {
             clientId: '846039759981641769'
           })
         }
-        r.msg.forEach(a => {
+        r.msg.slice(r.msg.length > 20 ? 20 : 0).forEach(a => {
           console.log(`\n(${chalk.hex(a.color)(a.username)}) : \x1b[32m${a.CreatedAt}\x1b[0m:\n>${chalk.hex(a.color)(new cryptr(String(a.expire)).decrypt(a.content))}\n`)
         })
 
@@ -108,7 +109,8 @@ rl.question('server: ', (serv) => {
         rll = readline.createInterface({
           input: process.stdin,
           output: process.stdout,
-          terminal: false
+          terminal: false,
+          prompt: ''
         })
         const main = async () => {
           try {
