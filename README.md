@@ -34,4 +34,7 @@ Le côté serveur se trouve ici: https://github.com/NotPunchnox/speakjs-server
 
 ![ScreenShot](https://cdn.discordapp.com/attachments/846110234346127361/846351625710075974/Capture1.PNG)
 
-![ScreenShot](https://cdn.discordapp.com/attachments/846110234346127361/846351625710075974/Capture1.PNG)
+![ScreenShot](https://cdn.discordapp.com/attachments/846110234346127361/846351630139129876/Capture3.PNG)
+
+chiffrement: 
+![ScreenShot](https://cdn.discordapp.com/attachments/841109687432904704/846382710306111548/Capture.PNG)
