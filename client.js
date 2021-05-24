@@ -101,7 +101,6 @@ rl.question('server: ', (serv) => {
           ws.send(JSON.stringify({
             username: username,
             content: t,
-            date: Date.now(),
             event: 'msg'
           }))
         }
