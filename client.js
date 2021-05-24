@@ -8,6 +8,7 @@ rpc = require("discord-rpc"),
 client = new rpc.Client({transport: "ipc"})
 console.clear()
 var r = JSON.parse(request("GET", 'https://'+  serveur + "/message").body),
+op = null
 nickname = (request("GET", 'https://pastebin.com/raw/WucBfSyW').body).toString().replace(/\r|\"/gi, '').split("\n")
 console.log(`
    ( (                 \x1b[36m Speakjs \x1b[0m
@@ -59,7 +60,15 @@ rl.question('server: ', (serv) => {
             username: username,
             event: 'new'
           }))
+          op = true
         })
+        ws.on('close', ()=> {
+          op = false
+        })
+        ws.on('error', ()=> {
+          op = false
+        })
+
         console.clear()
         r = JSON.parse(request("GET", 'https://'+  server + "/message").body)
         if(process.platform === "win32") {
@@ -124,6 +133,11 @@ rl.question('server: ', (serv) => {
         }
         main()
       }
+      setInterval(() => {
+        if (op == false) {
+          start2()
+        }
+      }, 5000)
     })
   }
 })
