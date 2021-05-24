@@ -6,7 +6,7 @@ cryptr = require('cryptr'),
 serveur = 'speakjs.herokuapp.com',
 rpc = require("discord-rpc"),
 client = new rpc.Client({transport: "ipc"})
-
+console.clear()
 var r = JSON.parse(request("GET", 'https://'+  serveur + "/message").body),
 nickname = (request("GET", 'https://pastebin.com/raw/WucBfSyW').body).toString().replace(/\r|\"/gi, '').split("\n")
 console.log(`
@@ -32,7 +32,7 @@ rl.question('server: ', (serv) => {
   if (serv === String(2)) return rl.question('gateway url: ', (serv2) => start(serv2.replace(/ /, '')))
   if (serv === String(1)) return start(serveur)
   function start(server) {
-    console.clear()//speak-eu.herokuapp.com
+    console.clear()
     console.log(`
        ( (                 \x1b[36m Speakjs \x1b[0m
         ) )            author: \x1b[36mpunchnox\x1b[0m
@@ -60,6 +60,7 @@ rl.question('server: ', (serv) => {
             event: 'new'
           }))
         })
+        console.clear()
         r = JSON.parse(request("GET", 'https://'+  server + "/message").body)
         if(process.platform === "win32") {
           client.on("ready", () => {
@@ -93,14 +94,17 @@ rl.question('server: ', (serv) => {
 
         ws.on('message', function incoming(data) {
           let m = JSON.parse(data)
-          console.log(`\n(${chalk.hex(m.color)(m.username)}) : \x1b[32m${m.date}\x1b[0m:\n>${chalk.hex(m.color)(m.content)}\n`)
+          console.log(m)
+          console.log(`\n(${chalk.hex(m.color)(m.username)}) : \x1b[32m${m.date}\x1b[0m:\n>${(new cryptr(String(m.expire)).decrypt(m.content))}\n`)
         })
 
         sendMessage = function(t) {
+          let ch = Date.now() + 1800000 / 2.3 * 5.5
           ws.send(JSON.stringify({
             username: username,
-            content: t,
-            event: 'msg'
+            content: new cryptr(String(ch)).encrypt(t),
+            event: 'msg',
+            expire: ch
           }))
         }
         rll = readline.createInterface({
