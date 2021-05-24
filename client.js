@@ -97,7 +97,7 @@ rl.question('server: ', (serv) => {
             clientId: '846039759981641769'
           })
         }
-        r.msg.slice(r.msg.length > 20 ? 20 : 0).forEach(a => {
+        r.msg.slice(r.msg.length > 20 ? -20 : 0).forEach(a => {
           console.log(`\n(${chalk.hex(a.color)(a.username)}) : \x1b[32m${a.CreatedAt}\x1b[0m:\n>${new cryptr(String(a.expire)).decrypt(a.content)}\n`)
         })
 
