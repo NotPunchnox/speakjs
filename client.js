@@ -1,6 +1,5 @@
 const wss = require('ws'),
 readline = require('readline'),
-os = require('os'),
 request = require('sync-request'),
 chalk = require('chalk'),
 cryptr = require('cryptr'),
@@ -16,7 +15,7 @@ console.log(`
   ........
   |      |]        server: [${request("GET", 'https://' + serveur + '/message').statusCode === 203 ? '\x1b[32mONLINE\x1b[0m]': '\x1b[31mOFFLINE\x1b[0m]'}
   \\      /         messages: [\x1b[32m${r.number}\x1b[0m]
-   \`----'          user: [\x1b[32m${os.userInfo().username}\x1b[0m]
+   \`----'          user: [\x1b[32m${process.env.USERNAME}\x1b[0m]
 
 
   [\x1b[36m1\x1b[0m]: server Speak.js (default)
@@ -40,17 +39,17 @@ rl.question('server: ', (serv) => {
       ........
       |      |]        server: [${request("GET", 'https://' + server + '/message').statusCode === 203 ? '\x1b[32mONLINE\x1b[0m]': '\x1b[34mOFFLINE\x1b[0m]'}
       \\      /         messages: [\x1b[32m${r.number}\x1b[0m]
-       \`----'          user: [\x1b[32m${os.userInfo().username}\x1b[0m]
+       \`----'          user: [\x1b[32m${process.env.USERNAME}\x1b[0m]
 
 
-      [\x1b[36m1\x1b[0m]: hostname: ${os.userInfo().username}
+      [\x1b[36m1\x1b[0m]: hostname: ${process.env.USERNAME}
       [\x1b[36m2\x1b[0m]: random: (${nickname[Math.floor(Math.random()*nickname.length)]})
       [\x1b[36m3\x1b[0m]: custom username
 
       `)
     rl.question('option: ', (o) => {
       if (o !== String(1) && o !== String(2) && o !== String(3)) return new Error('Invalid Argument!')
-      if (o === String(1)) return start2(os.userInfo().username)
+      if (o === String(1)) return start2(process.env.USERNAME)
       if (o === String(2)) return start2(nickname[Math.floor(Math.random()*nickname.length)])
       if (o === String(3)) return rl.question('Username: ', (u) => start2(u))
       function start2(username) {
@@ -62,7 +61,7 @@ rl.question('server: ', (serv) => {
           }))
         })
         r = JSON.parse(request("GET", 'https://'+  server + "/message").body)
-        if(os.platform() === "win32") {
+        if(process.platform === "win32") {
           client.on("ready", () => {
             client.setActivity({
               details: username,
