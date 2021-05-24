@@ -89,13 +89,12 @@ rl.question('server: ', (serv) => {
           })
         }
         r.msg.slice(r.msg.length > 20 ? 20 : 0).forEach(a => {
-          console.log(`\n(${chalk.hex(a.color)(a.username)}) : \x1b[32m${a.CreatedAt}\x1b[0m:\n>${chalk.hex(a.color)(new cryptr(String(a.expire)).decrypt(a.content))}\n`)
+          console.log(`\n(${chalk.hex(a.color)(a.username)}) : \x1b[32m${a.CreatedAt}\x1b[0m:\n>${new cryptr(String(a.expire)).decrypt(a.content)}\n`)
         })
 
         ws.on('message', function incoming(data) {
           let m = JSON.parse(data)
-          console.log(m)
-          console.log(`\n(${chalk.hex(m.color)(m.username)}) : \x1b[32m${m.date}\x1b[0m:\n>${(new cryptr(String(m.expire)).decrypt(m.content))}\n`)
+          console.log(`\n(${chalk.hex(m.color)(m.username)}) : \x1b[32m${m.date}\x1b[0m:\n>${new cryptr(String(m.expire)).decrypt(m.content)}\n`)
         })
 
         sendMessage = function(t) {
