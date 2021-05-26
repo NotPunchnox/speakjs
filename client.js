@@ -115,15 +115,9 @@ rl.question('server: ', (serv) => {
             expire: ch
           }))
         }
-        rll = readline.createInterface({
-          input: process.stdin,
-          output: process.stdout,
-          terminal: false,
-          prompt: ''
-        })
         const main = async () => {
           try {
-            rll.on("line", text => {
+            rl.on("line", text => {
               if (text.length > 0) return sendMessage(text)
             })
           } catch (err) {
